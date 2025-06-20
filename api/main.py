@@ -5,7 +5,8 @@ import joblib
 import numpy as np
 
 app = FastAPI()
-model = joblib.load("D:/heart-disease-ml-api/api/Heart_model.pkl")
+#model = joblib.load("D:/heart-disease-ml-api/api/Heart_model.pkl")
+model = joblib.load("api\Heart_model.pkl")
 
 class Patient(BaseModel):
     age: float
