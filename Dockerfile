@@ -1,13 +1,17 @@
 FROM python:3.10-slim
 
+# Set working directory inside container
 WORKDIR /app
 
+# Install Python dependencies
 COPY requirements.txt .
-
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+# Copy the app code (main.py and model)
+COPY api/ ./api/
 
-EXPOSE 10000
+# Set working directory to api folder for running
+WORKDIR /app/api
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "10000"]
+# Start FastAPI app using uvicorn
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
