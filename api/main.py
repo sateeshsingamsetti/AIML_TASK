@@ -43,7 +43,7 @@ def predict(data: Patient):
         prediction = model.predict(input_data)[0]
         probability = model.predict_proba(input_data)[0][1]
         #risk = "High Risk" if prediction == 1 else "Low Risk"
-        if probability > 0.70:
+        if probability >= 0.70:
             risk = "High Risk"
         elif probability > 0.4:
             risk = "Medium Risk"
