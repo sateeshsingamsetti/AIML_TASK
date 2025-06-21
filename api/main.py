@@ -2,26 +2,31 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import joblib
 import numpy as np
-import os
 from pathlib import Path
 
 app = FastAPI()
 
-# Dynamically build the path from project root
+# Load model
 model_path = Path(__file__).resolve().parent / "Heart_model.pkl"
-
-# Safe model load
 if not model_path.exists():
     raise FileNotFoundError(f"Model file not found at: {model_path}")
-
 model = joblib.load(model_path)
 
+# Define full feature model
 class Patient(BaseModel):
     age: float
     sex: int
     cp: int
+    trestbps: float
     chol: float
+    fbs: int
+    restecg: int
     thalach: float
+    exang: int
+    oldpeak: float
+    slope: int
+    ca: int
+    thal: int
 
 @app.get("/")
 def read_root():
@@ -30,7 +35,11 @@ def read_root():
 @app.post("/predict")
 def predict(data: Patient):
     try:
-        input_data = np.array([[data.age, data.sex, data.cp, data.chol, data.thalach]])
+        input_data = np.array([[
+            data.age, data.sex, data.cp, data.trestbps, data.chol,
+            data.fbs, data.restecg, data.thalach, data.exang,
+            data.oldpeak, data.slope, data.ca, data.thal
+        ]])
         prediction = model.predict(input_data)[0]
         probability = model.predict_proba(input_data)[0][1]
         risk = "High Risk" if prediction == 1 else "Low Risk"
@@ -39,7 +48,7 @@ def predict(data: Patient):
             "probability": round(float(probability), 4)
         }
     except Exception as e:
-        return {"error": str(e)}  # helps debug
+        return {"error": str(e)}
 
 @app.get("/health")
 def health():
