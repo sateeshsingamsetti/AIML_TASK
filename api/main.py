@@ -24,7 +24,7 @@ def read_root():
     return {"message": "Heart Disease Prediction API is running "}
 @app.post("/predict")
 def predict(data: Patient):
-    input_data = np.array([[data.age, data.sex, data.cp, data.chol, data.thalach]])  # Add all fields
+    input_data = np.array([[data.age, data.sex, data.cp, data.chol, data.thalach ]])  # Add all fields
     prediction = model.predict(input_data)
     probability = model.predict_proba(input_data)[0][1]
     return {"prediction": int(prediction[0]), "probability": float(probability)}
