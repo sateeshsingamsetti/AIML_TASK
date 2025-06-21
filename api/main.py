@@ -19,6 +19,9 @@ class Patient(BaseModel):
     thalach: float
     # ... include all required fields
 
+@app.get("/")
+def read_root():
+    return {"message": "Heart Disease Prediction API is running "}
 @app.post("/predict")
 def predict(data: Patient):
     input_data = np.array([[data.age, data.sex, data.cp, data.chol, data.thalach]])  # Add all fields
