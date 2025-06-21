@@ -4,8 +4,7 @@ from pydantic import BaseModel
 import joblib
 import numpy as np
 import os
-from pathlib import path
-
+from pathlib import Path
 app = FastAPI()
 #model = joblib.load("D:/heart-disease-ml-api/api/Heart_model.pkl")
 #model = joblib.load("api\Heart_model.pkl")
