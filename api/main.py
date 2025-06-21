@@ -6,16 +6,17 @@ from pathlib import Path
 
 app = FastAPI()
 
-# Load model from the same folder
-mmodel_path = Path(__file__).resolve().parent / "Heart_model.pkl"
+# Correct model path from current file
+model_path = Path(__file__).resolve().parent / "Heart_model.pkl"
 
+# Check model existence
 if not model_path.exists():
     raise FileNotFoundError(f"Model file not found at: {model_path}")
 
+# Load the model
 model = joblib.load(model_path)
 
-
-# Input schema
+# Define the input schema
 class Patient(BaseModel):
     age: float
     sex: int
