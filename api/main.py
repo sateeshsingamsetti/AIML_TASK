@@ -7,8 +7,13 @@ from pathlib import Path
 app = FastAPI()
 
 # Load model from the same folder
-model_path = Path(__file__).parent / "Heart_model.pkl"
+mmodel_path = Path(__file__).resolve().parent / "Heart_model.pkl"
+
+if not model_path.exists():
+    raise FileNotFoundError(f"Model file not found at: {model_path}")
+
 model = joblib.load(model_path)
+
 
 # Input schema
 class Patient(BaseModel):
